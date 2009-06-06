@@ -1,6 +1,6 @@
 $LOAD_PATH << 'lib'
-require "yaml"
-require "activerecord"
+require 'yaml'
+require 'activerecord'
 
 require 'em_ticker/abstract_loader'
 require 'em_ticker/ticker'
@@ -12,7 +12,7 @@ require 'em_ticker/ticker_line'
 require 'em_ticker/subscription'
 require 'em_ticker/score'
 
-LOG = Logger.new(STDOUT)
+LOG = Logger.new('log/development.log')
 LOG.level = Logger::DEBUG
 
 cfg = YAML.load_file('config/em_ticker.yml')
