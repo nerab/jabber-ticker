@@ -8,5 +8,5 @@
   :jabber_id: ticker@jabber.example.com
   :name: Example Ticker Bot
   :password: foobar
-  :master: tickermaster@@example.com
+  :master: tickermaster@example.com
   :is_public: true

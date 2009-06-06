@@ -22,17 +22,17 @@ class TickerBot
 		  begin
 		    ticker = Ticker.find_by_tid(message)
         if ticker == nil
-	        "Ticker #{message} existiert nicht."
+	        'Ticker #{message} existiert nicht.'
 	      else
 	        # first, refresh ticker
           find_or_create_loader(ticker).refresh!
 
           subscriber = Subscriber.find_or_create_by_jid(sender)
-	        ticker.ticker_lines.collect{|line| "\n#{line}" if subscriber.status == 'normal' || (subscriber.status == 'wichtig' && line.severity > 0)}
+	        ticker.ticker_lines.collect{|line| '\n#{line}' if subscriber.status == 'normal' || (subscriber.status == 'wichtig' && line.severity > 0)}
 	      end
       rescue
         LOG.error($!)
-        "Fehler: #{$!}"
+        'Fehler: #{$!}'
       end
 		}
 
@@ -46,10 +46,10 @@ class TickerBot
 			    subscriber = Subscriber.find_or_create_by_jid(sender)
 	        subscriber.status = 'wichtig'
 	        subscriber.save!
-	        "OK"
+	        'OK'
         rescue
           LOG.error($!)
-          "Fehler: #{$!}"
+          'Fehler: #{$!}'
         end
 		  }
 
@@ -63,10 +63,10 @@ class TickerBot
 	      subscriber = Subscriber.find_or_create_by_jid(sender)
 	      subscriber.status = 'normal'
 	      subscriber.save!
-	      "OK"
+	      'OK'
       rescue
         LOG.error($!)
-        "Fehler: #{$!}"
+        'Fehler: #{$!}'
       end
 		}
 
@@ -80,13 +80,13 @@ class TickerBot
 			  Subscriber.find_or_create_by_jid(sender).status
       rescue
         LOG.error($!)
-        "Fehler: #{$!}"
+        'Fehler: #{$!}'
       end
 		}
 
 		@bot.add_command(
 			:syntax      => 'abos',
-			:description => "Zeige alle Deine abonnierten Ticker an.",
+			:description => 'Zeige alle Deine abonnierten Ticker an.',
 	    :regex       => /^abos$/,
 	    :is_public   => true
 		){|sender, message|
@@ -94,59 +94,59 @@ class TickerBot
 		    subscriber = Subscriber.find_or_create_by_jid(sender)
 
 	      if subscriber.tickers.empty?
-	        "Du hast keine Ticker abonniert."
+	        'Du hast keine Ticker abonniert.'
 			  else
-		      subscribed_tickers = ""
+		      subscribed_tickers = ''
 		      subscriber.tickers.each{|subscribed|
-				    subscribed_tickers << "\n"
+				    subscribed_tickers << '\n'
 		        subscribed_tickers << subscribed.to_s
 				  }
-				  "Du hast folgende Ticker abonniert: #{subscribed_tickers}"
+				  'Du hast folgende Ticker abonniert: #{subscribed_tickers}'
 			  end
       rescue
         LOG.error($!)
-        "Fehler: #{$!}"
+        'Fehler: #{$!}'
       end
 		}
 
 		@bot.add_command(
 			:syntax      => 'abo <zahl>',
-			:description => "Gib die Nummer eines Tickers mit, um Nachrichten dieses Tickers zu erhalten.",
+			:description => 'Gib die Nummer eines Tickers mit, um Nachrichten dieses Tickers zu erhalten.',
 	    :regex       => /^abo\s+(\d*)?$/,
 	    :is_public   => true
 		){|sender, message|
 		  begin
 		    ticker = Ticker.find_by_tid(message)
 		    if ticker == nil
-			    "Ticker #{message} existiert nicht."
+			    'Ticker #{message} existiert nicht.'
 			  else
 			    subscriber = Subscriber.find_or_create_by_jid(sender)
           # TODO Throw error on attempt to subscribe the same ticker twice
           #if subscriber.tickers.find_by_tid(message).size > 0
-		      #  "Du hattest den Ticker #{message} bereits abonniert."
+		      #  'Du hattest den Ticker #{message} bereits abonniert.'
 		      #else
 		        Subscription.create!(:subscriber => subscriber, :ticker => ticker)
-		        "OK"
+		        'OK'
 		      #end
 	      end
       rescue
         LOG.error($!)
-        "Fehler: #{$!}"
+        'Fehler: #{$!}'
 		  end
 		}
 
 		@bot.add_command(
 			:syntax      => 'stop <zahl>',
-			:description => "Gib die Nummer eines Tickers mit, um keine Nachrichten dieses Tickers mehr zu erhalten.",
+			:description => 'Gib die Nummer eines Tickers mit, um keine Nachrichten dieses Tickers mehr zu erhalten.',
 	    :regex       => /^stop\s+(\d*)?$/,
 	    :is_public   => true
 		){|sender, message|
 		  begin
 		    Subscription.delete(Subscription.find(:all, :conditions => {:subscriber_id => Subscriber.find_or_create_by_jid(sender), :ticker_id => Ticker.find_by_tid(message.to_i)}).first)
-        "OK"
+        'OK'
       rescue
         LOG.error($!)
-        "Fehler: #{$!}"
+        'Fehler: #{$!}'
       end
 		}
 
@@ -158,11 +158,11 @@ class TickerBot
 		){
 		  begin
 			  @tickerListLoader.refresh!
-			  tickers = Ticker.find(:all, :order => :date).collect{|ticker| "\n#{ticker}"}
-			  "Folgende Ticker sind verfügbar: #{tickers}"
+			  tickers = Ticker.find(:all, :order => :date).collect{|ticker| '\n#{ticker}'}
+			  'Folgende Ticker sind verfügbar: #{tickers}'
       rescue
         LOG.error($!)
-        "Fehler: #{$!}"
+        'Fehler: #{$!}'
       end
 		}
 
@@ -173,10 +173,10 @@ class TickerBot
 			:is_public   => true
 		){
 		  begin
-			  "not yet implemented"
+			  'not yet implemented'
       rescue
         LOG.error($!)
-        "Fehler: #{$!}"
+        'Fehler: #{$!}'
       end
 		}
 
@@ -187,16 +187,16 @@ class TickerBot
 			:is_public   => true
 		){
 		  begin
-			  "not yet implemented"
+			  'not yet implemented'
       rescue
         LOG.error($!)
-        "Fehler: #{$!}"
+        'Fehler: #{$!}'
       end
 		}
 
 		@bot.add_command(
 			:syntax      => 'broadcast',
-			:description => "broadcast a message to all buddies (subscribers)",
+			:description => 'broadcast a message to all buddies (subscribers)',
 		  :regex       => /^broadcast\s+.+$/,
 			:is_public   => false
 		){|sender, message|
@@ -207,27 +207,27 @@ class TickerBot
 			  nil
       rescue
         LOG.error($!)
-        "Fehler: #{$!}"
+        'Fehler: #{$!}'
       end
 		}
 
 		@bot.add_command(
 			:syntax      => 'stats',
-			:description => "returns statistics",
+			:description => 'returns statistics',
 		  :regex       => /^stats$/,
 			:is_public   => false
 		){|sender, message|
 		  begin
-		    "#{Subscriber.count} subscribers have #{Subscription.count} subscriptions to #{Ticker.count} tickers"
+		    '#{Subscriber.count} subscribers have #{Subscription.count} subscriptions to #{Ticker.count} tickers'
       rescue
         LOG.error($!)
-        "Fehler: #{$!}"
+        'Fehler: #{$!}'
       end
 		}
 
 		@bot.add_command(
 			:syntax      => 'shutdown',
-			:description => "shut the bot down. THERE IS NO WAY TO START IT AGAIN FROM REMOTE!",
+			:description => 'shut the bot down. THERE IS NO WAY TO START IT AGAIN FROM REMOTE!',
 		  :regex       => /^shutdown$/,
 			:is_public   => false
 		){|sender, message|
@@ -236,7 +236,7 @@ class TickerBot
 			  nil
       rescue
         LOG.error($!)
-        "Fehler: #{$!}"
+        'Fehler: #{$!}'
       end
 		}
 
@@ -247,10 +247,10 @@ class TickerBot
 	    :is_public   => false
 		){|sender, message|
 		  begin
-		    eval(message.gsub(/&apos;/, "'").gsub(/&quot;/, "\"").gsub(/&lt;/, "<").gsub(/&gt;/, ">"))
+		    eval(message.gsub(/&apos;/, "'").gsub(/&quot;/, '\"').gsub(/&lt;/, '<').gsub(/&gt;/, '>'))
       rescue
         LOG.error($!)
-        "Fehler: #{$!.message}"
+        'Fehler: #{$!.message}'
       end
 		}
 
@@ -274,31 +274,31 @@ class TickerBot
       while not @shutdown do
         @tickerListLoader.refresh!
 
-        status = ""
+        status = ''
 
         # Announce currently running game(s) as IM status
-				LOG.debug("Checking for currently running games:")
+				LOG.debug('Checking for currently running games:')
         running_games = Ticker.all.select{|t| t.running?}
 
         running_games.each{|t|
           LOG.debug(t)
-          status << "#{t.parties}: #{t.score}"
-          status << "; " if t != running_games.last
+          status << '#{t.parties}: #{t.score}'
+          status << '; ' if t != running_games.last
         }
 
         # Announce today's game(s) as IM status if none is running right now
-        LOG.debug("Checking for upcoming games:")
+        LOG.debug('Checking for upcoming games:')
         if running_games.empty? # no games currently running
           # TODO Improve the efficiency of this filter by storing date and time of the game separately
           # and use proper AR finders (find_by_date)
           todays_games = Ticker.all.select{|t| t.date.to_date == DateTime.now.to_date}
-          LOG.debug("Today's games are: #{todays_games}")
+          LOG.debug('Today's games are: #{todays_games}')
 
           if not todays_games.nil?
-	          status << "ab " if not todays_games.empty?
+	          status << 'ab ' if not todays_games.empty?
 	          todays_games.each{|t|
-		          status << "#{t.date.hour}: #{t.date.min} #{t.parties}"
-		          status << "; " if t != todays_games.last
+		          status << '#{t.date.hour}: #{t.date.min} #{t.parties}'
+		          status << '; ' if t != todays_games.last
 		        }
           end
         end
@@ -336,7 +336,7 @@ class TickerBot
 	  t_line.ticker.subscribers.select{|s| s.status == 'normal' || (s.status == 'wichtig' && t_line.severity > 0)}.each{|subscriber|
 	    if @bot.jabber
         if @bot.jabber.roster.items[subscriber.jid] != nil # TODO && @bot.jabber.roster.items[subscriber.jid].online?
-          LOG.debug "delivering update to #{subscriber.jid}: #{t_line.to_s}"
+          LOG.debug 'delivering update to #{subscriber.jid}: #{t_line.to_s}'
           @bot.deliver(subscriber.jid, t_line.to_s)
         end
 	    end
