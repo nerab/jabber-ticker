@@ -9,4 +9,6 @@
   :name: Example Ticker Bot
   :password: foobar
   :master: tickermaster@example.com
+  # master password is not required for the bot, but we use it in the command line client bin/ticker
+  :master_password: WOLRH7iLba82pTwc6Q7k
   :is_public: true

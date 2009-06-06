@@ -7,6 +7,6 @@ class Score < ActiveRecord::Base
   validates_inclusion_of :right, :in => 0..99
 
   def to_s
-		'#{left}:#{right}'
+		"#{left}:#{right}"
 	end
 end

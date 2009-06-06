@@ -38,10 +38,10 @@ class TickerListLoader < AbstractLoader
           t = Ticker.find_by_tid(tid)
 
           if (t != nil)
-            LOG.debug('Ticker #{t.tid} loaded')
+            LOG.debug("Ticker #{t.tid} loaded")
           else
             t = Ticker.create!(:tid => tid, :date => date, :parties => parties, :url => link)
-            LOG.debug('Ticker #{t.tid} created')
+            LOG.debug("Ticker #{t.tid} created")
           end
         rescue
           LOG.error($!)
