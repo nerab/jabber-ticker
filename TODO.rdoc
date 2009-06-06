@@ -1,0 +1,31 @@
+TODO There are more tickers. Some are here:
+
+  http://sport.ard.de/sp/komponente/tickervorschau.jsp
+
+Let's scrape them too and make them available.
+
+Maybe we can just try the numbers?
+
+* DTM
+* Formel 1
+* Fußball
+  http://sport.ard.de/sp/layout/php/ticker/index.phtml?event=8709&showall=1&manualReload=1&tid=1461&positioned=1
+* Tennis?
+
+Basic script for DTM, working as of 2009-06-07
+
+require 'hpricot'
+require 'iconv'
+require 'open-uri'
+require 'date'
+
+# A DTM Ticker has a slightly different structure
+# http://sport.ard.de/sp/layout/php/sportticker/index.phtml?event=3489&event_art=24&ticker=905&lra=&manualReload=1&positioned=1&showall=1
+url = 'http://sport.ard.de/sp/layout/php/sportticker/index.phtml?event=3489&event_art=24&ticker=905' + "&manualReload=1&positioned=1&showall=1"
+doc = Hpricot.parse(Iconv.iconv('UTF-8//IGNORE', 'ISO-8859-1', open(url).read).join)
+doc.search("//div[@id='tickerMeldungen']/p").each{|line|
+    runde = line.search('span').inner_text
+	line.search('span').remove
+    puts "-> #{runde}" if !runde.empty?
+    puts line.inner_text
+}
