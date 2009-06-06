@@ -1,0 +1,12 @@
+---
+:ticker:
+  :url: http://www.example.com/news
+:db:
+  :adapter: sqlite3
+  :database: db/jabber_ticker_dev.sqlite3
+:bot:
+  :jabber_id: ticker@jabber.example.com
+  :name: Example Ticker Bot
+  :password: foobar
+  :master: tickermaster@@example.com
+  :is_public: true

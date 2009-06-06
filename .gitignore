@@ -1,0 +1,4 @@
+config/em_ticker.yml
+log/*.log
+tmp/**/*
+db/*.sqlite3
