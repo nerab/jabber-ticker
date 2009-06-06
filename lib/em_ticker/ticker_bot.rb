@@ -207,7 +207,7 @@ class TickerBot
 			  nil
       rescue
         LOG.error($!)
-        "Fehler: #{$!}"
+        "Error: #{$!}"
       end
 		}
 
@@ -221,22 +221,38 @@ class TickerBot
 		    "#{Subscriber.count} subscribers have #{Subscription.count} subscriptions to #{Ticker.count} tickers"
       rescue
         LOG.error($!)
-        "Fehler: #{$!}"
+        "Error: #{$!}"
       end
 		}
 
 		@bot.add_command(
 			:syntax      => 'shutdown',
-			:description => 'shut the bot down. THERE IS NO WAY TO START IT AGAIN FROM REMOTE!',
+			:description => 'Initiate bot shutdown',
 		  :regex       => /^shutdown$/,
 			:is_public   => false
 		){|sender, message|
-		  begin
-			  disconnect
-			  nil
-      rescue
-        LOG.error($!)
-        "Fehler: #{$!}"
+      @shutdown_confirmation = rand(10000) if @shutdown_confirmation.nil?
+      "Send 'shutdown #{@shutdown_confirmation}' in order to confirm shutdown"
+		}
+
+		@bot.add_command(
+			:syntax      => 'shutdown',
+			:description => 'Confirm bot shutdown',
+	    :regex       => /^shutdown\s+(\d*)?$/,
+			:is_public   => false
+		){|sender, message|
+		  if @shutdown_confirmation.nil?
+		    "Shutdown not initiated yet. Please send 'shutdown' in order to receive a new confirmation."
+		  elsif message.to_i != @shutdown_confirmation
+        "#{message} is an unknown shutdown confirmation. Please send 'shutdown' in order to receive a new confirmation."
+      else
+  		  begin
+  			  disconnect
+  			  nil
+        rescue
+          LOG.error($!)
+          "Error: #{$!}"
+        end
       end
 		}
 
@@ -250,7 +266,7 @@ class TickerBot
 		    eval(message.gsub(/&apos;/, "'").gsub(/&quot;/, '\"').gsub(/&lt;/, '<').gsub(/&gt;/, '>'))
       rescue
         LOG.error($!)
-        "Fehler: #{$!.message}"
+        "Error: #{$!.message}"
       end
 		}
 
