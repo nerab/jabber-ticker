@@ -1,0 +1,22 @@
+#!/usr/bin/env ruby
+
+#
+# Simple command line chat client that can be used to control
+#
+
+require 'xmpp4r-simple'
+
+cfg = YAML.load_file('config/em_ticker.yml')
+im = Jabber::Simple.new(cfg[:bot][:master], cfg[:bot][:master_password])
+im.deliver(cfg[:bot][:jabber_id], ARGV[0])
+
+Thread.new{
+  loop do
+    if im.received_messages?
+      im.received_messages{|msg| puts msg.body} # if msg.type == :chat
+      break
+    else
+      sleep 1
+    end
+  end
+}.join
