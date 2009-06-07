@@ -17,7 +17,7 @@ LOG.level = Logger::DEBUG
 # ActiveRecord required ActiveSupport, and this one changes the formatter to SimpleFormatter (which we don't want)
 LOG.formatter = Logger::Formatter.new
 
-cfg = YAML.load_file('config/em_ticker.yml')
+cfg = YAML.load_file('config/jabber_ticker.yml')
 ActiveRecord::Base.establish_connection(cfg[:db])
 Thread.abort_on_exception = true
 TickerBot.new(cfg[:bot], TickerListLoader.new(cfg[:ticker][:url])).connect

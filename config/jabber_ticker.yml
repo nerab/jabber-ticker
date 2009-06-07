@@ -3,9 +3,9 @@
   :url: http://sport.ard.de/euro2008/euro_live/ticker/
 :db:
   :adapter: sqlite3
-  :database: db/em_ticker_dev.sqlite3
+  :database: db/jabber_ticker_dev.sqlite3
 :bot:
-  :name: EM Ticker Bot
+  :name: Jabber Ticker Bot
   :jabber_id: ticker@jabber.ccc.de
   :password: ftPpgCKMauQ36Dy3
 #  :jabber_id: em-ticker@jabber.ccc.de
