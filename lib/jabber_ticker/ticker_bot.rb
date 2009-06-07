@@ -1,7 +1,8 @@
 require 'jabber/bot'
 
 #
-#
+# Jabber bot that regularely checks web sites for changes. If changes are found, they will be sent as Jabber messages to all subscribers.
+# The bot maintains a subscriptions model that allows aubscribers to select what changes to receive.
 #
 class TickerBot
   def initialize(cfg, tickerListLoader)
@@ -37,9 +38,9 @@ class TickerBot
 		}
 
 		@bot.add_command(
-			:syntax      => 'wichtig',
-			:description => "Sende 'wichtig', um nur bei Ereignissen (Tore, Wechsel, gelbe und rote Karten) informiert zu werden. Gilt auch für das Kommando 'verlauf'.",
-	    :regex       => /^wichtig$/,
+			:syntax      => 'status wichtig',
+			:description => "Sende 'status wichtig', um nur bei wichtigen Ereignissen (z.B. Tore, Wechsel, gelbe und rote Karten) informiert zu werden. Gilt auch für das Kommando 'verlauf'.",
+	    :regex       => /^status wichtig$/,
 	    :is_public   => true
 		  ){|sender, message|
 		    begin
@@ -54,9 +55,9 @@ class TickerBot
 		  }
 
 		@bot.add_command(
-			:syntax      => 'normal',
-			:description => "Sende 'normal', um alle Ereignisse zu erhalten.",
-	    :regex       => /^normal$/,
+			:syntax      => 'status normal',
+			:description => "Sende 'status normal', um alle Ereignisse zu erhalten.",
+	    :regex       => /^status normal$/,
 	    :is_public   => true
 		){|sender, message|
 		  begin
@@ -196,7 +197,7 @@ class TickerBot
 
 		@bot.add_command(
 			:syntax      => 'broadcast',
-			:description => 'broadcast a message to all buddies (subscribers)',
+			:description => 'Broadcast a message to all subscribers. This command is available only for the bot master.',
 		  :regex       => /^broadcast\s+.+$/,
 			:is_public   => false
 		){|sender, message|
@@ -213,7 +214,7 @@ class TickerBot
 
 		@bot.add_command(
 			:syntax      => 'stats',
-			:description => 'returns statistics',
+			:description => 'Returns statistics about this bot. This command is available only for the bot master.',
 		  :regex       => /^stats$/,
 			:is_public   => false
 		){|sender, message|
@@ -227,7 +228,7 @@ class TickerBot
 
 		@bot.add_command(
 			:syntax      => 'shutdown',
-			:description => 'Initiate bot shutdown',
+			:description => 'Initiate bot shutdown. This command is available only for the bot master.',
 		  :regex       => /^shutdown$/,
 			:is_public   => false
 		){|sender, message|
@@ -236,8 +237,8 @@ class TickerBot
 		}
 
 		@bot.add_command(
-			:syntax      => 'shutdown',
-			:description => 'Confirm bot shutdown',
+			:syntax      => 'shutdown <number>',
+			:description => 'Confirm bot shutdown. This command is available only for the bot master.',
 	    :regex       => /^shutdown\s+(\d*)?$/,
 			:is_public   => false
 		){|sender, message|
@@ -257,8 +258,8 @@ class TickerBot
 		}
 
 		@bot.add_command(
-			:syntax      => 'r',
-			:description => "Sende 'r <command>', um ein Ruby command auszuführen.",
+			:syntax      => 'r <command>',
+			:description => "Execute a Ruby command within the bot's context. This command is available only for the bot master.",
 	    :regex       => /^r\s+.+$/,
 	    :is_public   => false
 		){|sender, message|
@@ -269,7 +270,6 @@ class TickerBot
         "Error: #{$!.message}"
       end
 		}
-
   end
 
   def connect
@@ -387,5 +387,4 @@ private
 
     loader
   end
-
 end
