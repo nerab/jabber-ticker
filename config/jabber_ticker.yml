@@ -1,0 +1,18 @@
+---
+:ticker:
+  :url: http://sport.ard.de/euro2008/euro_live/ticker/
+:db:
+  :adapter: sqlite3
+  :database: db/em_ticker_dev.sqlite3
+:bot:
+  :name: EM Ticker Bot
+  :jabber_id: ticker@jabber.ccc.de
+  :password: ftPpgCKMauQ36Dy3
+#  :jabber_id: em-ticker@jabber.ccc.de
+#  :password: WOLRH7iLba82pTwc6Q7k
+#  :master: steffen@familie-uhlig.net
+  :master: em-ticker@jabber.ccc.de
+
+  # master password is not required for the bot, but we use it in the command line client bin/ticker
+  :master_password: WOLRH7iLba82pTwc6Q7k
+  :is_public: true

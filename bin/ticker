@@ -6,7 +6,7 @@
 
 require 'xmpp4r-simple'
 
-cfg = YAML.load_file('config/em_ticker.yml')
+cfg = YAML.load_file('config/jabber_ticker.yml')
 im = Jabber::Simple.new(cfg[:bot][:master], cfg[:bot][:master_password])
 im.deliver(cfg[:bot][:jabber_id], ARGV.join(' '))
 

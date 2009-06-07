@@ -1,7 +1,7 @@
 $LOAD_PATH << 'lib'
 require "activerecord"
 
-ActiveRecord::Base.establish_connection(YAML.load_file("config/em_ticker.yml")[:db])
+ActiveRecord::Base.establish_connection(YAML.load_file("config/jabber_ticker.yml")[:db])
 
 ActiveRecord::Schema.define do
   create_table :tickers do |t|
