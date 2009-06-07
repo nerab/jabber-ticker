@@ -1,0 +1,3 @@
+Jabber bot that regularely checks web sites for changes. If changes are found, they will be sent as Jabber messages to all subscribers.
+
+The bot maintains a subscriptions model that allows aubscribers to select what changes to receive.
