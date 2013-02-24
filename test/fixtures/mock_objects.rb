@@ -1,7 +1,7 @@
 si = Ticker.create!(:tid => 1319, :parties => "Spanien - Italien", :date => DateTime.strptime("23.06.2008 12:30", "%d.%m.%Y %H:%M"))
 dt = Ticker.create!(:tid => 1320, :parties => "Deutschland - Türkei", :date => DateTime.strptime("25.06.2008 12:30", "%d.%m.%Y %H:%M"))
 
-su = Subscriber.create!(:jid => "steffen@familie-uhlig.net")
+su = Subscriber.create!(:jid => "nerab@gmx.at")
 
 Subscription.create!(:subscriber => su, :ticker => si)
 Subscription.create!(:subscriber => su, :ticker => dt)
